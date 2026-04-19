@@ -1,0 +1,18 @@
+# Environments
+venv/
+venv_313/
+.venv/
+env/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# IDEs
+.idea/
+.vscode/
+
+# Django
+backend/db.sqlite3
+*.media/

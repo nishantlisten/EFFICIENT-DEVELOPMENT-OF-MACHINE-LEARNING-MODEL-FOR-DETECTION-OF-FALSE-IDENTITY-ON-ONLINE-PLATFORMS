@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Fake Profile Detector — Social Media Authenticity Analyzer</title>
+    <meta name="description" content="Detect fake social media profiles and AI-generated content using machine learning and multi-signal behavior analysis. Analyze text, images, videos and posting patterns.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <!-- Animated background -->
+    <div class="bg-animation">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header" id="header">
+            <div class="header-glow"></div>
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                        <circle cx="16" cy="16" r="14" stroke="url(#grad)" stroke-width="2.5"/>
+                        <path d="M12 16.5L15 19.5L21 12.5" stroke="url(#grad)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <defs>
+                            <linearGradient id="grad" x1="0" y1="0" x2="32" y2="32">
+                                <stop stop-color="#6366f1"/>
+                                <stop offset="1" stop-color="#a855f7"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div>
+                    <h1>AI Profile Detector</h1>
+                    <p class="subtitle">Machine Learning–Powered Authenticity Analysis</p>
+                </div>
+            </div>
+            <div class="header-badge">
+                <span class="pulse-dot"></span>
+                <span>RF Model Active</span>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main">
+            <!-- Mode Tabs -->
+            <div class="mode-tabs" id="mode-tabs">
+                <button class="mode-tab active" id="tab-url" onclick="switchTab('url')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    Analyze by URL
+                </button>
+                <button class="mode-tab" id="tab-manual" onclick="switchTab('manual')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                    Manual Entry
+                </button>
+                <button class="mode-tab" id="tab-posts" onclick="switchTab('posts')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                    Post Analysis
+                </button>
+            </div>
+
+            <!-- URL Input Section -->
+            <section class="card input-card" id="url-section">
+                <div class="card-header">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                        Analyze Instagram Profile
+                    </h2>
+                    <p class="card-desc">Paste an Instagram profile URL to automatically fetch and analyze the account</p>
+                </div>
+
+                <form id="url-form" novalidate>
+                    <div class="url-input-wrapper">
+                        <div class="url-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                        </div>
+                        <input type="text" id="profile-url" name="url" placeholder="https://instagram.com/username" autocomplete="off" spellcheck="false">
+                    </div>
+
+                    <button type="submit" class="btn-analyze" id="btn-url-analyze">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <span>Fetch & Analyze</span>
+                        <div class="btn-loader" id="btn-url-loader"></div>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Manual Input Section (hidden by default) -->
+            <section class="card input-card" id="manual-section" style="display: none;">
+                <div class="card-header">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                        Manual Profile Analysis
+                    </h2>
+                    <p class="card-desc">Enter social media profile details manually</p>
+                </div>
+
+                <form id="analysis-form" novalidate>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="username">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                                Username
+                            </label>
+                            <input type="text" id="username" name="username" placeholder="e.g. john_doe_123" autocomplete="off">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="fullname">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                Full Name
+                            </label>
+                            <input type="text" id="fullname" name="fullname" placeholder="e.g. John Doe" autocomplete="off">
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="bio">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                                Profile Bio / Description
+                            </label>
+                            <textarea id="bio" name="bio" rows="3" placeholder="Enter the profile bio text to analyze for AI-generated content..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="num_followers">Followers</label>
+                            <input type="number" id="num_followers" name="num_followers" placeholder="0" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="num_following">Following</label>
+                            <input type="number" id="num_following" name="num_following" placeholder="0" min="0" value="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="num_posts">Posts</label>
+                            <input type="number" id="num_posts" name="num_posts" placeholder="0" min="0" value="0">
+                        </div>
+
+                        <div class="toggle-group">
+                            <div class="toggle-item">
+                                <label class="toggle-label" for="profile_pic">Profile Picture</label>
+                                <label class="switch"><input type="checkbox" id="profile_pic" name="profile_pic" checked><span class="slider"></span></label>
+                            </div>
+                            <div class="toggle-item">
+                                <label class="toggle-label" for="external_url">External URL</label>
+                                <label class="switch"><input type="checkbox" id="external_url" name="external_url"><span class="slider"></span></label>
+                            </div>
+                            <div class="toggle-item">
+                                <label class="toggle-label" for="private">Private Account</label>
+                                <label class="switch"><input type="checkbox" id="private" name="private"><span class="slider"></span></label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-analyze" id="btn-analyze">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                        <span>Analyze Profile</span>
+                        <div class="btn-loader" id="btn-loader"></div>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Post Analysis Section -->
+            <section class="card input-card" id="posts-section" style="display: none;">
+                <div class="card-header">
+                    <h2>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+                        Post Behavior & Content Analysis
+                    </h2>
+                    <p class="card-desc">Analyze posts for AI patterns, agenda, timing behavior, image identity, and video audio content</p>
+                </div>
+
+                <form id="posts-form" novalidate>
+                    <!-- Profile fields (compact) -->
+                    <div class="posts-profile-strip">
+                        <div class="form-group">
+                            <label for="p-bio">Bio Text</label>
+                            <textarea id="p-bio" rows="2" placeholder="Profile bio text..."></textarea>
+                        </div>
+                        <div class="posts-strip-row">
+                            <div class="form-group">
+                                <label for="p-followers">Followers</label>
+                                <input type="number" id="p-followers" placeholder="0" min="0" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="p-following">Following</label>
+                                <input type="number" id="p-following" placeholder="0" min="0" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="p-num-posts">Posts</label>
+                                <input type="number" id="p-num-posts" placeholder="0" min="0" value="0">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post builder -->
+                    <div class="posts-builder">
+                        <div class="posts-builder-header">
+                            <span class="posts-count-label">Posts to Analyze: <strong id="post-count-display">0</strong></span>
+                            <button type="button" class="btn-add-post" id="btn-add-post" onclick="addPostRow()">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                                Add Post
+                            </button>
+                        </div>
+                        <div id="posts-list" class="posts-list">
+                            <!-- Post rows injected by JS -->
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-analyze" id="btn-posts-analyze">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+                        <span>Run Multi-Signal Analysis</span>
+                        <div class="btn-loader" id="btn-posts-loader"></div>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Scraped Profile Info (shown after URL fetch) -->
+            <section class="card scraped-card" id="scraped-section" style="display: none;">
+                <div class="card-header">
+                    <h3>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                        Fetched Profile Data
+                    </h3>
+                </div>
+                <div class="scraped-grid" id="scraped-grid"></div>
+            </section>
+
+            <!-- Results Section (hidden initially) -->
+            <section class="results-section" id="results-section" style="display: none;">
+                <div class="card verdict-card" id="verdict-card">
+                    <div class="verdict-badge" id="verdict-badge">
+                        <div class="verdict-icon" id="verdict-icon"></div>
+                        <div class="verdict-text">
+                            <span class="verdict-label">Final Verdict</span>
+                            <span class="verdict-value" id="verdict-value">—</span>
+                        </div>
+                    </div>
+                    <div class="confidence-bar-container">
+                        <div class="confidence-labels">
+                            <span>Confidence</span>
+                            <span id="confidence-value">0%</span>
+                        </div>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" id="confidence-fill"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analysis-grid">
+                    <div class="card analysis-card" id="profile-card">
+                        <div class="card-header">
+                            <h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                Profile Analysis
+                            </h3>
+                            <span class="analysis-badge" id="profile-badge">—</span>
+                        </div>
+                        <div class="mini-bar-container">
+                            <div class="mini-labels">
+                                <span>Fake Probability</span>
+                                <span id="profile-prob">0%</span>
+                            </div>
+                            <div class="mini-bar"><div class="mini-fill" id="profile-fill"></div></div>
+                        </div>
+                        <div class="reasons-list" id="profile-reasons"></div>
+                    </div>
+
+                    <div class="card analysis-card" id="ai-card">
+                        <div class="card-header">
+                            <h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93"/><path d="M8.56 2.75a4 4 0 0 0-2.24 6.41"/><circle cx="12" cy="16" r="2"/></svg>
+                                AI Content Detection
+                            </h3>
+                            <span class="analysis-badge" id="ai-badge">—</span>
+                        </div>
+                        <div class="mini-bar-container">
+                            <div class="mini-labels">
+                                <span>AI Probability</span>
+                                <span id="ai-prob">0%</span>
+                            </div>
+                            <div class="mini-bar"><div class="mini-fill ai-fill" id="ai-fill"></div></div>
+                        </div>
+                        <div class="reasons-list" id="ai-reasons"></div>
+                        <div class="scores-grid" id="scores-grid"></div>
+                    </div>
+
+                    <!-- Behavior Analysis Card (only shown for post analysis) -->
+                    <div class="card analysis-card behavior-card" id="behavior-card" style="display:none;">
+                        <div class="card-header">
+                            <h3>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                                Behavior & Content Signals
+                            </h3>
+                            <span class="analysis-badge" id="behavior-badge">—</span>
+                        </div>
+                        <div class="behavior-signals-grid" id="behavior-signals-grid"></div>
+                        <div class="reasons-list" id="behavior-reasons"></div>
+                    </div>
+                </div>
+
+                <div class="card reasons-card" id="reasons-card">
+                    <div class="card-header">
+                        <h3>
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                            Why This Verdict?
+                        </h3>
+                    </div>
+                    <div class="reasons-list detailed" id="all-reasons"></div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>Powered by Random Forest ML · AI Text Heuristics · Behavior Analysis · Video/Audio Transcription · Django REST Framework</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
